@@ -1,7 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# 
+#
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatingApp.Backend.Api", "DatingApp.Backend.Api\DatingApp.Backend.Api.csproj", "{513700B7-3571-42A9-8696-E4C45BEB76AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatingApp.Backend.Domain", "DatingApp.Backend.Domain\DatingApp.Backend.Domain.csproj", "{3906FF0F-A615-403F-9355-C6193D99D474}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatingApp.Backend.Infrastructure", "DatingApp.Backend.Infrastructure\DatingApp.Backend.Infrastructure.csproj", "{60E3EBC6-D94E-40AD-B70A-A3349486AC15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatingApp.Backend.Application", "DatingApp.Backend.Application\DatingApp.Backend.Application.csproj", "{35931690-1523-4AEC-BC44-CFAE38C3FFB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,5 +19,17 @@ Global
 		{513700B7-3571-42A9-8696-E4C45BEB76AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{513700B7-3571-42A9-8696-E4C45BEB76AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{513700B7-3571-42A9-8696-E4C45BEB76AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3906FF0F-A615-403F-9355-C6193D99D474}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3906FF0F-A615-403F-9355-C6193D99D474}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3906FF0F-A615-403F-9355-C6193D99D474}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3906FF0F-A615-403F-9355-C6193D99D474}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60E3EBC6-D94E-40AD-B70A-A3349486AC15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60E3EBC6-D94E-40AD-B70A-A3349486AC15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60E3EBC6-D94E-40AD-B70A-A3349486AC15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60E3EBC6-D94E-40AD-B70A-A3349486AC15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35931690-1523-4AEC-BC44-CFAE38C3FFB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35931690-1523-4AEC-BC44-CFAE38C3FFB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35931690-1523-4AEC-BC44-CFAE38C3FFB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35931690-1523-4AEC-BC44-CFAE38C3FFB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

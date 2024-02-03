@@ -517,3 +517,8 @@ _UpgradeReport_Files/
 Thumbs.db
 Desktop.ini
 .DS_Store
+
+# Database files
+*.db
+*.db-shm
+*.db-wal
