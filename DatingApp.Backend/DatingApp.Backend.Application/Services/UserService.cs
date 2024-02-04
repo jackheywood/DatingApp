@@ -15,4 +15,9 @@ public class UserService(IUserRepository userRepository) : IUserService
     {
         return await userRepository.ListAllAsync();
     }
+
+    public async Task<bool> UserExistsAsync(string userName)
+    {
+        return await userRepository.ExistsAsync(userName);
+    }
 }

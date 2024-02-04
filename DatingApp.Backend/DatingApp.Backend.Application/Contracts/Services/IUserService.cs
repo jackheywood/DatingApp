@@ -6,4 +6,5 @@ public interface IUserService
 {
     Task<AppUser> GetUserByIdAsync(int id);
     Task<IEnumerable<AppUser>> ListAllUsersAsync();
+    Task<bool> UserExistsAsync(string userName);
 }

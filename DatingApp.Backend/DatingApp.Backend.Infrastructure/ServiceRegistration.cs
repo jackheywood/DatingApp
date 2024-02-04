@@ -1,6 +1,8 @@
-﻿using DatingApp.Backend.Application.Contracts.Repositories;
+﻿using DatingApp.Backend.Application.Contracts.Identity;
+using DatingApp.Backend.Application.Contracts.Repositories;
 using DatingApp.Backend.Infrastructure.Data;
 using DatingApp.Backend.Infrastructure.Data.Repositories;
+using DatingApp.Backend.Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,5 +19,7 @@ public static class ServiceRegistration
         });
 
         services.AddScoped<IUserRepository, UserRepository>();
+
+        services.AddTransient<IIdentityService, IdentityService>();
     }
 }

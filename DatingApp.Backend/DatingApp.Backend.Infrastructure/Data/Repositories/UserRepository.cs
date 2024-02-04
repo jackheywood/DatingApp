@@ -15,4 +15,16 @@ public class UserRepository(DatingAppDbContext context) : IUserRepository
     {
         return await context.Users.ToListAsync();
     }
+
+    public async Task<AppUser> AddAsync(AppUser user)
+    {
+        await context.AddAsync(user);
+        await context.SaveChangesAsync();
+        return user;
+    }
+
+    public async Task<bool> ExistsAsync(string userName)
+    {
+        return await context.Users.AnyAsync(u => u.UserName.ToLower() == userName.ToLower());
+    }
 }

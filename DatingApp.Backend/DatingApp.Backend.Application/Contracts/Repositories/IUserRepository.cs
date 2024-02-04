@@ -2,4 +2,7 @@
 
 namespace DatingApp.Backend.Application.Contracts.Repositories;
 
-public interface IUserRepository : IAsyncRepository<AppUser>;
+public interface IUserRepository : IAsyncRepository<AppUser>
+{
+    Task<bool> ExistsAsync(string userName);
+}

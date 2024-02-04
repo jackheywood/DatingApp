@@ -9,7 +9,7 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 
 builder.Services.AddCors();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => options.SuppressAsyncSuffixInActionNames = false);
 
 var app = builder.Build();
 

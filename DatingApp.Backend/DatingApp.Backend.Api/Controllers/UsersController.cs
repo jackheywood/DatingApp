@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DatingApp.Backend.Api.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class UsersController(IUserService userService) : ControllerBase
+public class UsersController(IUserService userService) : BaseApiController
 {
     [HttpGet]
     public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
