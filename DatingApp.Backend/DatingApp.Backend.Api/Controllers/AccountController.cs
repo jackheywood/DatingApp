@@ -11,7 +11,7 @@ public class AccountController(IIdentityService identityService, IUserService us
     [HttpPost("register")]
     public async Task<ActionResult> Register(RegisterDto registerDto)
     {
-        if (await userService.UserExistsAsync(registerDto.UserName)) return BadRequest("Username is taken");
+        if (await userService.UserExistsAsync(registerDto.Username)) return BadRequest("Username is taken");
 
         var user = await identityService.RegisterUserAsync(registerDto);
 
@@ -21,7 +21,7 @@ public class AccountController(IIdentityService identityService, IUserService us
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
-        if (!await userService.UserExistsAsync(loginDto.UserName)) return Unauthorized("Invalid username");
+        if (!await userService.UserExistsAsync(loginDto.Username)) return Unauthorized("Invalid username");
 
         var user = await identityService.AuthenticateUserAsync(loginDto);
 

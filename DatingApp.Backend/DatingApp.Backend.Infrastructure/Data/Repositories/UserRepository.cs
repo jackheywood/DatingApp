@@ -12,9 +12,9 @@ public class UserRepository(DatingAppDbContext context) : IUserRepository
         return await context.Users.FindAsync(id);
     }
 
-    public async Task<AppUser> GetByUserNameAsync(string userName)
+    public async Task<AppUser> GetByUsernameAsync(string username)
     {
-        return await context.Users.SingleOrDefaultAsync(UserNameMatches(userName));
+        return await context.Users.SingleOrDefaultAsync(UsernameMatches(username));
     }
 
     public async Task<IReadOnlyList<AppUser>> ListAllAsync()
@@ -29,13 +29,13 @@ public class UserRepository(DatingAppDbContext context) : IUserRepository
         return user;
     }
 
-    public async Task<bool> ExistsAsync(string userName)
+    public async Task<bool> ExistsAsync(string username)
     {
-        return await context.Users.AnyAsync(UserNameMatches(userName));
+        return await context.Users.AnyAsync(UsernameMatches(username));
     }
 
-    private static Expression<Func<AppUser, bool>> UserNameMatches(string userName)
+    private static Expression<Func<AppUser, bool>> UsernameMatches(string username)
     {
-        return u => u.UserName.ToLower() == userName.ToLower();
+        return u => u.Username.ToLower() == username.ToLower();
     }
 }

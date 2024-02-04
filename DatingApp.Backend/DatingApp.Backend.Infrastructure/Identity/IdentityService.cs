@@ -16,7 +16,7 @@ public class IdentityService(IUserRepository userRepository, ITokenService token
 
         var user = new AppUser
         {
-            UserName = registerDto.UserName.ToLower(),
+            Username = registerDto.Username.ToLower(),
             PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
             PasswordSalt = hmac.Key,
         };
@@ -26,13 +26,13 @@ public class IdentityService(IUserRepository userRepository, ITokenService token
 
     public async Task<UserDto> AuthenticateUserAsync(LoginDto loginDto)
     {
-        var user = await userRepository.GetByUserNameAsync(loginDto.UserName);
+        var user = await userRepository.GetByUsernameAsync(loginDto.Username);
 
         if (!IsPasswordValid(loginDto.Password, user)) return null;
 
         return new UserDto
         {
-            UserName = user.UserName,
+            Username = user.Username,
             Token = tokenService.CreateToken(user),
         };
     }

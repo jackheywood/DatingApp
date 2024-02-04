@@ -16,7 +16,7 @@ public class TokenService(IConfiguration config) : ITokenService
     {
         var claims = new List<Claim>
         {
-            new(JwtRegisteredClaimNames.NameId, user.UserName),
+            new(JwtRegisteredClaimNames.NameId, user.Username),
         };
 
         var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
