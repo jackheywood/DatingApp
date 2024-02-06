@@ -1,3 +1,4 @@
+using DatingApp.Backend.Api.Middleware;
 using DatingApp.Backend.Application;
 using DatingApp.Backend.Infrastructure;
 
@@ -15,6 +16,8 @@ builder.Services.AddControllers(options => options.SuppressAsyncSuffixInActionNa
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseMiddleware<ExceptionMiddleware>();
+
 app.UseCors(policyBuilder => policyBuilder.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
 
 app.UseAuthentication();
