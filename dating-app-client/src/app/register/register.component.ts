@@ -11,7 +11,7 @@ export class RegisterComponent {
   @Output() cancelRegister = new EventEmitter();
   model: any = {};
 
-  constructor(private accountService: AccountService, private toastr: ToastrService) { }
+  constructor(private accountService: AccountService, private toastr: ToastrService) {}
 
   register() {
     this.accountService.register(this.model).subscribe({
