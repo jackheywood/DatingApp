@@ -10,7 +10,7 @@ namespace DatingApp.Backend.Infrastructure.Identity;
 
 public class IdentityService(IUserRepository userRepository, ITokenService tokenService) : IIdentityService
 {
-    public async Task<AppUser> RegisterUserAsync(RegisterDto registerDto)
+    public async Task<UserDto> RegisterUserAsync(RegisterDto registerDto)
     {
         using var hmac = new HMACSHA512();
 
@@ -21,7 +21,13 @@ public class IdentityService(IUserRepository userRepository, ITokenService token
             PasswordSalt = hmac.Key,
         };
 
-        return await userRepository.AddAsync(user);
+        await userRepository.AddAsync(user);
+
+        return new UserDto
+        {
+            Username = user.Username,
+            Token = tokenService.CreateToken(user),
+        };
     }
 
     public async Task<UserDto> AuthenticateUserAsync(LoginDto loginDto)

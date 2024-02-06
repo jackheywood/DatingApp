@@ -9,13 +9,13 @@ namespace DatingApp.Backend.Api.Controllers;
 public class AccountController(IIdentityService identityService, IUserService userService) : BaseApiController
 {
     [HttpPost("register")]
-    public async Task<ActionResult> Register(RegisterDto registerDto)
+    public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
         if (await userService.UserExistsAsync(registerDto.Username)) return BadRequest("Username is taken");
 
         var user = await identityService.RegisterUserAsync(registerDto);
 
-        return CreatedAtAction(nameof(UsersController.GetUser), "Users", new { id = user.Id }, null);
+        return Ok(user);
     }
 
     [HttpPost("login")]

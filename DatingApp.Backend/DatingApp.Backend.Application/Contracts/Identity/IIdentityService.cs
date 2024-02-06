@@ -6,6 +6,6 @@ namespace DatingApp.Backend.Application.Contracts.Identity;
 
 public interface IIdentityService
 {
-    Task<AppUser> RegisterUserAsync(RegisterDto registerDto);
+    Task<UserDto> RegisterUserAsync(RegisterDto registerDto);
     Task<UserDto> AuthenticateUserAsync(LoginDto loginDto);
 }
