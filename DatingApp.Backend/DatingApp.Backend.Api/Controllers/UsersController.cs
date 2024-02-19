@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DatingApp.Backend.Api.Controllers;
 
+[Authorize]
 public class UsersController(IUserService userService) : BaseApiController
 {
     [HttpGet]
@@ -12,8 +13,7 @@ public class UsersController(IUserService userService) : BaseApiController
     {
         return Ok(await userService.ListAllUsersAsync());
     }
-
-    [Authorize]
+    
     [HttpGet("{id:int}")]
     public async Task<ActionResult<AppUser>> GetUser(int id)
     {
