@@ -1,5 +1,5 @@
 ﻿using DatingApp.Backend.Application.Contracts.Services;
-using DatingApp.Backend.Domain.Entities;
+using DatingApp.Backend.Application.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +15,7 @@ public class BuggyController(IUserService userService) : BaseApiController
     }
 
     [HttpGet("not-found")]
-    public async Task<ActionResult<AppUser>> GetNotFound()
+    public async Task<ActionResult<MemberDto>> GetNotFound()
     {
         var user = await userService.GetUserByIdAsync(-1);
 

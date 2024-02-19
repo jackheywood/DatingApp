@@ -1,22 +1,28 @@
 ﻿using DatingApp.Backend.Application.Contracts.Services;
-using DatingApp.Backend.Domain.Entities;
+using DatingApp.Backend.Application.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DatingApp.Backend.Api.Controllers;
 
+[Authorize]
 public class UsersController(IUserService userService) : BaseApiController
 {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
+    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
     {
         return Ok(await userService.ListAllUsersAsync());
     }
 
-    [Authorize]
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<AppUser>> GetUser(int id)
+    public async Task<ActionResult<MemberDto>> GetUserById(int id)
     {
         return Ok(await userService.GetUserByIdAsync(id));
+    }
+
+    [HttpGet("{username}")]
+    public async Task<ActionResult<MemberDto>> GetUserByUsername(string username)
+    {
+        return Ok(await userService.GetUserByUsernameAsync(username));
     }
 }

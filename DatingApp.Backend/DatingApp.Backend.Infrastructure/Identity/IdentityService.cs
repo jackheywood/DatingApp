@@ -22,6 +22,7 @@ public class IdentityService(IUserRepository userRepository, ITokenService token
         };
 
         await userRepository.AddAsync(user);
+        await userRepository.SaveAllAsync();
 
         return new UserDto
         {

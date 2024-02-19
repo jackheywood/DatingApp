@@ -2,7 +2,9 @@
 
 public interface IAsyncRepository<T> where T : class
 {
+    Task<IEnumerable<T>> GetAllAsync();
     Task<T> GetByIdAsync(int id);
-    Task<IReadOnlyList<T>> ListAllAsync();
-    Task<T> AddAsync(T entity);
+    void Update(T entity);
+    Task AddAsync(T entity);
+    Task<bool> SaveAllAsync();
 }
