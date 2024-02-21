@@ -22,6 +22,8 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { GalleryComponent } from 'ng-gallery';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     NotFoundComponent,
     ServerErrorComponent,
     MemberCardComponent,
+    MemberEditComponent,
   ],
   imports: [
     SharedModule,
@@ -45,6 +48,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     BrowserAnimationsModule,
     FormsModule,
     TabsModule,
+    GalleryComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
