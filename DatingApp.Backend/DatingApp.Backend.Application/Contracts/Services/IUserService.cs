@@ -7,5 +7,6 @@ public interface IUserService
     Task<MemberDto> GetUserByIdAsync(int id);
     Task<MemberDto> GetUserByUsernameAsync(string username);
     Task<IEnumerable<MemberDto>> ListAllUsersAsync();
+    Task UpdateUserAsync(string username, MemberUpdateDto memberUpdateDto);
     Task<bool> UserExistsAsync(string username);
 }

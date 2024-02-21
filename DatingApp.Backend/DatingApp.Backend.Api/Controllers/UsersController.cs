@@ -1,4 +1,5 @@
-﻿using DatingApp.Backend.Application.Contracts.Services;
+﻿using System.Security.Claims;
+using DatingApp.Backend.Application.Contracts.Services;
 using DatingApp.Backend.Application.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,5 +25,13 @@ public class UsersController(IUserService userService) : BaseApiController
     public async Task<ActionResult<MemberDto>> GetUserByUsername(string username)
     {
         return Ok(await userService.GetUserByUsernameAsync(username));
+    }
+
+    [HttpPut]
+    public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
+    {
+        var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        await userService.UpdateUserAsync(username, memberUpdateDto);
+        return NoContent();
     }
 }
