@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Text.Json;
 using DatingApp.Backend.Api.Exceptions;
+using DatingApp.Backend.Application.Exceptions;
 
 namespace DatingApp.Backend.Api.Middleware;
 
@@ -11,6 +12,26 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
         try
         {
             await next(context);
+        }
+        catch (NotFoundException ex)
+        {
+            logger.LogError(ex, "{Message}", ex.Message);
+
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+
+            var response = JsonSerializer.Serialize(new { error = ex.Message });
+            await context.Response.WriteAsync(response);
+        }
+        catch (UpdateFailedException ex)
+        {
+            logger.LogError(ex, "{Message}", ex.Message);
+
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+
+            var response = JsonSerializer.Serialize(new { error = ex.Message });
+            await context.Response.WriteAsync(response);
         }
         catch (Exception ex)
         {
