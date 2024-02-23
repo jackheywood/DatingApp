@@ -1,14 +1,14 @@
 using DatingApp.Backend.Api.Middleware;
 using DatingApp.Backend.Application;
 using DatingApp.Backend.Infrastructure;
-using DatingApp.Backend.Infrastructure.Data;
+using DatingApp.Backend.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddApplicationServices();
-builder.Services.AddDataServices(builder.Configuration);
+builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
 
 builder.Services.AddCors();

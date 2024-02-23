@@ -7,6 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+    </ItemGroup>
+
+    <ItemGroup>
         <ProjectReference Include="..\DatingApp.Backend.Domain\DatingApp.Backend.Domain.csproj"/>
     </ItemGroup>
 

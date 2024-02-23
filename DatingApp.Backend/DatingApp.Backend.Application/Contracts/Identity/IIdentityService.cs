@@ -1,6 +1,5 @@
 ﻿using DatingApp.Backend.Application.DTOs;
 using DatingApp.Backend.Application.DTOs.Identity;
-using DatingApp.Backend.Domain.Entities;
 
 namespace DatingApp.Backend.Application.Contracts.Identity;
 

@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
-using DatingApp.Backend.Application.Contracts.Repositories;
+using DatingApp.Backend.Application.Contracts.Persistence.Repositories;
+using DatingApp.Backend.Application.Contracts.Persistence.Services;
 using DatingApp.Backend.Application.Contracts.Services;
 using DatingApp.Backend.Application.DTOs;
 using DatingApp.Backend.Application.Exceptions;
+using Microsoft.AspNetCore.Http;
 
 namespace DatingApp.Backend.Application.Services;
 
-public class UserService(IUserRepository userRepository, IMapper mapper) : IUserService
+public class UserService(IUserRepository userRepository, IPhotoService photoService, IMapper mapper) : IUserService
 {
     public async Task<MemberDto> GetUserByIdAsync(int id)
     {
@@ -32,8 +34,59 @@ public class UserService(IUserRepository userRepository, IMapper mapper) : IUser
         mapper.Map(memberUpdateDto, user);
 
         var saveResult = await userRepository.SaveAllAsync();
+        if (!saveResult) throw new UpdateFailedException($"Failed to update user {username}");
+    }
+
+    public async Task<PhotoDto> AddPhotoAsync(string username, IFormFile file)
+    {
+        var user = await userRepository.GetByUsernameAsync(username);
+        if (user is null) throw new NotFoundException($"User {username} not found");
+
+        var photo = await photoService.AddPhotoAsync(file);
+        if (user.Photos.Count == 0) photo.IsMain = true;
+
+        user.Photos.Add(photo);
+
+        var saveResult = await userRepository.SaveAllAsync();
 
         if (!saveResult) throw new UpdateFailedException($"Failed to update user {username}");
+
+        return mapper.Map<PhotoDto>(photo);
+    }
+
+    public async Task SetMainPhotoAsync(string username, int photoId)
+    {
+        var user = await userRepository.GetByUsernameAsync(username);
+        if (user is null) throw new NotFoundException($"User {username} not found");
+
+        var photo = user.Photos.FirstOrDefault(p => p.Id == photoId);
+        if (photo is null) throw new NotFoundException($"Photo {photoId} does not belong to {username}");
+        if (photo.IsMain) throw new UpdateFailedException($"Photo {photoId} is already the main photo for {username}");
+
+        var currentMain = user.Photos.FirstOrDefault(p => p.IsMain);
+        if (currentMain != null) currentMain.IsMain = false;
+
+        photo.IsMain = true;
+
+        var saveResult = await userRepository.SaveAllAsync();
+        if (!saveResult) throw new UpdateFailedException($"Failed to update main photo for {username}");
+    }
+
+    public async Task DeletePhotoAsync(string username, int photoId)
+    {
+        var user = await userRepository.GetByUsernameAsync(username);
+        if (user is null) throw new NotFoundException($"User {username} not found");
+
+        var photo = user.Photos.FirstOrDefault(p => p.Id == photoId);
+        if (photo is null) throw new NotFoundException($"Photo {photoId} does not belong to {username}");
+        if (photo.IsMain) throw new UpdateFailedException("You cannot delete your main photo");
+
+        if (photo.PublicId is not null) await photoService.DeletePhotoAsync(photo.PublicId);
+
+        user.Photos.Remove(photo);
+
+        var saveResult = await userRepository.SaveAllAsync();
+        if (!saveResult) throw new UpdateFailedException($"Failed to delete photo for {username}");
     }
 
     public async Task<bool> UserExistsAsync(string username)

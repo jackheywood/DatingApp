@@ -1,12 +1,12 @@
 ﻿using System.Linq.Expressions;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using DatingApp.Backend.Application.Contracts.Repositories;
+using DatingApp.Backend.Application.Contracts.Persistence.Repositories;
 using DatingApp.Backend.Application.DTOs;
 using DatingApp.Backend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace DatingApp.Backend.Infrastructure.Data.Repositories;
+namespace DatingApp.Backend.Infrastructure.Persistence.Repositories;
 
 public class UserRepository(DatingAppDbContext context, IMapper mapper) : IUserRepository
 {
@@ -32,7 +32,9 @@ public class UserRepository(DatingAppDbContext context, IMapper mapper) : IUserR
 
     public async Task<AppUser> GetByUsernameAsync(string username)
     {
-        return await context.Users.SingleOrDefaultAsync(UsernameMatches(username));
+        return await context.Users
+            .Include(u => u.Photos)
+            .SingleOrDefaultAsync(UsernameMatches(username));
     }
 
     public async Task<IEnumerable<AppUser>> GetAllAsync()

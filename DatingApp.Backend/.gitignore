@@ -522,3 +522,6 @@ Desktop.ini
 *.db
 *.db-shm
 *.db-wal
+
+# Appsettings
+appsettings.json

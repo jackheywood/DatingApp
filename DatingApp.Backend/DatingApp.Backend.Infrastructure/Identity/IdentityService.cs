@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 using DatingApp.Backend.Application.Contracts.Identity;
-using DatingApp.Backend.Application.Contracts.Repositories;
+using DatingApp.Backend.Application.Contracts.Persistence.Repositories;
 using DatingApp.Backend.Application.DTOs;
 using DatingApp.Backend.Application.DTOs.Identity;
 using DatingApp.Backend.Domain.Entities;
@@ -28,6 +28,7 @@ public class IdentityService(IUserRepository userRepository, ITokenService token
         {
             Username = user.Username,
             Token = tokenService.CreateToken(user),
+            PhotoUrl = user.Photos.FirstOrDefault(p => p.IsMain)?.Url,
         };
     }
 
@@ -41,6 +42,7 @@ public class IdentityService(IUserRepository userRepository, ITokenService token
         {
             Username = user.Username,
             Token = tokenService.CreateToken(user),
+            PhotoUrl = user.Photos.FirstOrDefault(p => p.IsMain)?.Url,
         };
     }
 
