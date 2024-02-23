@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace DatingApp.Backend.Infrastructure.Data.Migrations
+namespace DatingApp.Backend.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class ExtendUserEntity : Migration

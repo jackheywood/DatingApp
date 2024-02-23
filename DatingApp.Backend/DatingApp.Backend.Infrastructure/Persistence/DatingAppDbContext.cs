@@ -1,7 +1,7 @@
 ﻿using DatingApp.Backend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace DatingApp.Backend.Infrastructure.Data;
+namespace DatingApp.Backend.Infrastructure.Persistence;
 
 public class DatingAppDbContext(DbContextOptions options) : DbContext(options)
 {

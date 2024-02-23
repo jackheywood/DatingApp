@@ -6,7 +6,7 @@ using DatingApp.Backend.Application.DTOs;
 using DatingApp.Backend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace DatingApp.Backend.Infrastructure.Data.Repositories;
+namespace DatingApp.Backend.Infrastructure.Persistence.Repositories;
 
 public class UserRepository(DatingAppDbContext context, IMapper mapper) : IUserRepository
 {

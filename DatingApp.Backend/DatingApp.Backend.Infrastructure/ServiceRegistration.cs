@@ -1,9 +1,10 @@
 ﻿using System.Text;
 using DatingApp.Backend.Application.Contracts.Identity;
 using DatingApp.Backend.Application.Contracts.Repositories;
-using DatingApp.Backend.Infrastructure.Data;
-using DatingApp.Backend.Infrastructure.Data.Repositories;
+using DatingApp.Backend.Infrastructure.Helpers;
 using DatingApp.Backend.Infrastructure.Identity;
+using DatingApp.Backend.Infrastructure.Persistence;
+using DatingApp.Backend.Infrastructure.Persistence.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +21,8 @@ public static class ServiceRegistration
         {
             options.UseSqlite(config.GetConnectionString("DefaultConnection"));
         });
+
+        services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
 
         services.AddScoped<IUserRepository, UserRepository>();
     }

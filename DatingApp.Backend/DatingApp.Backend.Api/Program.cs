@@ -1,7 +1,7 @@
 using DatingApp.Backend.Api.Middleware;
 using DatingApp.Backend.Application;
 using DatingApp.Backend.Infrastructure;
-using DatingApp.Backend.Infrastructure.Data;
+using DatingApp.Backend.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
