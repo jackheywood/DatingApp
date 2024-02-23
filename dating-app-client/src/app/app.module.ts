@@ -25,6 +25,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { GalleryComponent } from 'ng-gallery';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
+import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
     ServerErrorComponent,
     MemberCardComponent,
     MemberEditComponent,
+    PhotoEditorComponent,
   ],
   imports: [
     SharedModule,
