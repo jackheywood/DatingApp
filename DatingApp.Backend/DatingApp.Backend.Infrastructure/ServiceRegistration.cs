@@ -1,10 +1,12 @@
 ﻿using System.Text;
 using DatingApp.Backend.Application.Contracts.Identity;
-using DatingApp.Backend.Application.Contracts.Repositories;
+using DatingApp.Backend.Application.Contracts.Persistence.Repositories;
+using DatingApp.Backend.Application.Contracts.Persistence.Services;
 using DatingApp.Backend.Infrastructure.Helpers;
 using DatingApp.Backend.Infrastructure.Identity;
 using DatingApp.Backend.Infrastructure.Persistence;
 using DatingApp.Backend.Infrastructure.Persistence.Repositories;
+using DatingApp.Backend.Infrastructure.Persistence.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,7 +17,7 @@ namespace DatingApp.Backend.Infrastructure;
 
 public static class ServiceRegistration
 {
-    public static void AddDataServices(this IServiceCollection services, IConfiguration config)
+    public static void AddPersistenceServices(this IServiceCollection services, IConfiguration config)
     {
         services.AddDbContext<DatingAppDbContext>(options =>
         {
@@ -25,6 +27,8 @@ public static class ServiceRegistration
         services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
 
         services.AddScoped<IUserRepository, UserRepository>();
+
+        services.AddScoped<IPhotoService, PhotoService>();
     }
 
     public static void AddIdentityServices(this IServiceCollection services, IConfiguration config)

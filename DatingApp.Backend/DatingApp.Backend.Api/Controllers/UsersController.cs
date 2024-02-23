@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+﻿using DatingApp.Backend.Api.Extensions;
 using DatingApp.Backend.Application.Contracts.Services;
 using DatingApp.Backend.Application.DTOs;
 using Microsoft.AspNetCore.Authorization;
@@ -30,8 +30,15 @@ public class UsersController(IUserService userService) : BaseApiController
     [HttpPut]
     public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
     {
-        var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        await userService.UpdateUserAsync(username, memberUpdateDto);
+        await userService.UpdateUserAsync(User.GetUsername(), memberUpdateDto);
         return NoContent();
+    }
+
+    [HttpPost("photo")]
+    public async Task<ActionResult<PhotoDto>> AddPhoto(IFormFile file)
+    {
+        var username = User.GetUsername();
+        var photo = await userService.AddPhotoAsync(username, file);
+        return CreatedAtAction(nameof(GetUserByUsername), new { username }, photo);
     }
 }

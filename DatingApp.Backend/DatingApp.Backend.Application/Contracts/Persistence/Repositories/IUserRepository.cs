@@ -1,7 +1,7 @@
 ﻿using DatingApp.Backend.Application.DTOs;
 using DatingApp.Backend.Domain.Entities;
 
-namespace DatingApp.Backend.Application.Contracts.Repositories;
+namespace DatingApp.Backend.Application.Contracts.Persistence.Repositories;
 
 public interface IUserRepository : IAsyncRepository<AppUser>
 {

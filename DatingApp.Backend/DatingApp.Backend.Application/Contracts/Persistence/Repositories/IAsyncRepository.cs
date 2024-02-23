@@ -1,4 +1,4 @@
-﻿namespace DatingApp.Backend.Application.Contracts.Repositories;
+﻿namespace DatingApp.Backend.Application.Contracts.Persistence.Repositories;
 
 public interface IAsyncRepository<T> where T : class
 {
