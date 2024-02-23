@@ -28,6 +28,7 @@ public class IdentityService(IUserRepository userRepository, ITokenService token
         {
             Username = user.Username,
             Token = tokenService.CreateToken(user),
+            PhotoUrl = user.Photos.FirstOrDefault(p => p.IsMain)?.Url,
         };
     }
 
@@ -41,6 +42,7 @@ public class IdentityService(IUserRepository userRepository, ITokenService token
         {
             Username = user.Username,
             Token = tokenService.CreateToken(user),
+            PhotoUrl = user.Photos.FirstOrDefault(p => p.IsMain)?.Url,
         };
     }
 

@@ -10,5 +10,6 @@ public interface IUserService
     Task<IEnumerable<MemberDto>> ListAllUsersAsync();
     Task UpdateUserAsync(string username, MemberUpdateDto memberUpdateDto);
     Task<PhotoDto> AddPhotoAsync(string username, IFormFile file);
+    Task SetMainPhotoAsync(string username, int photoId);
     Task<bool> UserExistsAsync(string username);
 }

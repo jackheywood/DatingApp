@@ -41,4 +41,11 @@ public class UsersController(IUserService userService) : BaseApiController
         var photo = await userService.AddPhotoAsync(username, file);
         return CreatedAtAction(nameof(GetUserByUsername), new { username }, photo);
     }
+
+    [HttpPut("set-main-photo/{photoId:int}")]
+    public async Task<ActionResult> SetMainPhoto(int photoId)
+    {
+        await userService.SetMainPhotoAsync(User.GetUsername(), photoId);
+        return NoContent();
+    }
 }
