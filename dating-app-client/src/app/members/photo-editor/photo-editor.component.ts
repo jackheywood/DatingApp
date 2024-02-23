@@ -35,7 +35,7 @@ export class PhotoEditorComponent implements OnInit {
     this.initializeUploader();
   }
 
-  setMainPhoto(photo: Photo) {
+  setMainPhoto(photo: Photo): void {
     this.memberService.setMainPhoto(photo.id).subscribe({
       next: () => {
         if (this.user && this.member) {
@@ -51,13 +51,23 @@ export class PhotoEditorComponent implements OnInit {
     });
   }
 
+  deletePhoto(photoId: number): void {
+    this.memberService.deletePhoto(photoId).subscribe({
+      next: () => {
+        if (this.member) {
+          this.member.photos = this.member.photos.filter(p => p.id != photoId);
+        }
+      },
+    });
+  }
+
   fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
   }
 
   initializeUploader(): void {
     this.uploader = new FileUploader({
-      url: this.baseUrl + 'users/photo',
+      url: this.baseUrl + 'users/photos',
       authToken: `Bearer ${this.user?.token}`,
       isHTML5: true,
       allowedFileType: ['image'],

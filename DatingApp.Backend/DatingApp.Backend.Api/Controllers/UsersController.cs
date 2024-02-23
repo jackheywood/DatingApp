@@ -34,7 +34,7 @@ public class UsersController(IUserService userService) : BaseApiController
         return NoContent();
     }
 
-    [HttpPost("photo")]
+    [HttpPost("photos")]
     public async Task<ActionResult<PhotoDto>> AddPhoto(IFormFile file)
     {
         var username = User.GetUsername();
@@ -42,10 +42,17 @@ public class UsersController(IUserService userService) : BaseApiController
         return CreatedAtAction(nameof(GetUserByUsername), new { username }, photo);
     }
 
-    [HttpPut("set-main-photo/{photoId:int}")]
+    [HttpPut("photos/set-main/{photoId:int}")]
     public async Task<ActionResult> SetMainPhoto(int photoId)
     {
         await userService.SetMainPhotoAsync(User.GetUsername(), photoId);
+        return NoContent();
+    }
+
+    [HttpDelete("photos/{photoId:int}")]
+    public async Task<ActionResult> DeletePhoto(int photoId)
+    {
+        await userService.DeletePhotoAsync(User.GetUsername(), photoId);
         return NoContent();
     }
 }

@@ -72,6 +72,23 @@ public class UserService(IUserRepository userRepository, IPhotoService photoServ
         if (!saveResult) throw new UpdateFailedException($"Failed to update main photo for {username}");
     }
 
+    public async Task DeletePhotoAsync(string username, int photoId)
+    {
+        var user = await userRepository.GetByUsernameAsync(username);
+        if (user is null) throw new NotFoundException($"User {username} not found");
+
+        var photo = user.Photos.FirstOrDefault(p => p.Id == photoId);
+        if (photo is null) throw new NotFoundException($"Photo {photoId} does not belong to {username}");
+        if (photo.IsMain) throw new UpdateFailedException("You cannot delete your main photo");
+
+        if (photo.PublicId is not null) await photoService.DeletePhotoAsync(photo.PublicId);
+
+        user.Photos.Remove(photo);
+
+        var saveResult = await userRepository.SaveAllAsync();
+        if (!saveResult) throw new UpdateFailedException($"Failed to delete photo for {username}");
+    }
+
     public async Task<bool> UserExistsAsync(string username)
     {
         return await userRepository.ExistsAsync(username);
