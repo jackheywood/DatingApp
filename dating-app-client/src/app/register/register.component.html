@@ -1,24 +1,58 @@
-<form #registerForm="ngForm" (ngSubmit)="register()" autocomplete="off">
+<form (ngSubmit)="registerForm.valid && register()" [formGroup]="registerForm" autocomplete="off">
   <h2 class="text-center text-primary">Sign up</h2>
   <hr>
+
   <div class="mb-3">
-    <input
-      [(ngModel)]="model.username"
-      class="form-control"
-      name="username"
-      placeholder="Username"
-      type="text">
+    <label style="margin-right: 10px">I am a: </label>
+    <label class="form-check-label">
+      <input class="form-check-input" formControlName="gender" type="radio" value="male"> Male
+    </label>
+    <label class="form-check-label">
+      <input class="form-check-input ms-2" formControlName="gender" type="radio" value="female"> Female
+    </label>
   </div>
-  <div class="mb-3">
-    <input
-      [(ngModel)]="model.password"
-      class="form-control"
-      name="password"
-      placeholder="Password"
-      type="password">
+
+  <app-text-input
+    [formControl]="$any(registerForm.controls['username'])"
+    [label]="'Username'" />
+
+  <app-text-input
+    [formControl]="$any(registerForm.controls['knownAs'])"
+    [label]="'Known As'" />
+
+  <app-date-picker
+    [formControl]="$any(registerForm.controls['dateOfBirth'])"
+    [label]="'Date of Birth'"
+    [maxDate]="maxDate" />
+
+  <app-text-input
+    [formControl]="$any(registerForm.controls['city'])"
+    [label]="'City'" />
+
+  <app-text-input
+    [formControl]="$any(registerForm.controls['country'])"
+    [label]="'Country'" />
+
+  <app-text-input
+    [formControl]="$any(registerForm.controls['password'])"
+    [label]="'Password'"
+    [type]="'password'" />
+
+  <app-text-input
+    [formControl]="$any(registerForm.controls['confirmPassword'])"
+    [label]="'Confirm Password'"
+    [type]="'password'" />
+
+  <div *ngIf="validationErrors.length > 0" class="row">
+    <ul class="text-danger">
+      <li *ngFor="let error of validationErrors">
+        {{ error }}
+      </li>
+    </ul>
   </div>
+
   <div class="text-center">
-    <button class="btn btn-success me-2" type="submit">Register</button>
+    <button [disabled]="!registerForm.valid" class="btn btn-success me-2" type="submit">Register</button>
     <button (click)="cancel()" class="btn btn-default" type="button">Cancel</button>
   </div>
 </form>

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DatingApp.Backend.Application.DTOs;
+using DatingApp.Backend.Application.DTOs.Identity;
 using DatingApp.Backend.Domain.Entities;
 using DatingApp.Backend.Domain.Extensions;
 
@@ -18,5 +19,7 @@ public class AutoMapperProfiles : Profile
         CreateMap<MemberUpdateDto, AppUser>();
 
         CreateMap<Photo, PhotoDto>();
+
+        CreateMap<RegisterDto, AppUser>();
     }
 }
