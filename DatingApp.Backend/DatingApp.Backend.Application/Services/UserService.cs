@@ -4,6 +4,7 @@ using DatingApp.Backend.Application.Contracts.Persistence.Services;
 using DatingApp.Backend.Application.Contracts.Services;
 using DatingApp.Backend.Application.DTOs;
 using DatingApp.Backend.Application.Exceptions;
+using DatingApp.Backend.Application.Helpers;
 using Microsoft.AspNetCore.Http;
 
 namespace DatingApp.Backend.Application.Services;
@@ -21,9 +22,9 @@ public class UserService(IUserRepository userRepository, IPhotoService photoServ
         return await userRepository.GetMemberAsync(username);
     }
 
-    public async Task<IEnumerable<MemberDto>> ListAllUsersAsync()
+    public async Task<PagedList<MemberDto>> ListUsersAsync(UserParams userParams)
     {
-        return await userRepository.GetMembersAsync();
+        return await userRepository.GetMembersAsync(userParams);
     }
 
     public async Task UpdateUserAsync(string username, MemberUpdateDto memberUpdateDto)

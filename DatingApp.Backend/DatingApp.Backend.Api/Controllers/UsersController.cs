@@ -1,6 +1,8 @@
 ﻿using DatingApp.Backend.Api.Extensions;
+using DatingApp.Backend.Api.Helpers;
 using DatingApp.Backend.Application.Contracts.Services;
 using DatingApp.Backend.Application.DTOs;
+using DatingApp.Backend.Application.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,9 +12,13 @@ namespace DatingApp.Backend.Api.Controllers;
 public class UsersController(IUserService userService) : BaseApiController
 {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
+    public async Task<ActionResult<PagedList<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
     {
-        return Ok(await userService.ListAllUsersAsync());
+        var users = await userService.ListUsersAsync(userParams);
+
+        Response.AddPaginationHeader(new PaginationHeader(users));
+
+        return Ok(users);
     }
 
     [HttpGet("{id:int}")]
