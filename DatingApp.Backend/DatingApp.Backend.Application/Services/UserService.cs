@@ -4,6 +4,7 @@ using DatingApp.Backend.Application.Contracts.Persistence.Services;
 using DatingApp.Backend.Application.Contracts.Services;
 using DatingApp.Backend.Application.DTOs;
 using DatingApp.Backend.Application.Exceptions;
+using DatingApp.Backend.Application.Helpers;
 using Microsoft.AspNetCore.Http;
 
 namespace DatingApp.Backend.Application.Services;
@@ -21,9 +22,17 @@ public class UserService(IUserRepository userRepository, IPhotoService photoServ
         return await userRepository.GetMemberAsync(username);
     }
 
-    public async Task<IEnumerable<MemberDto>> ListAllUsersAsync()
+    public async Task<PagedList<MemberDto>> ListUsersAsync(string username, UserParams userParams)
     {
-        return await userRepository.GetMembersAsync();
+        var currentUser = await userRepository.GetByUsernameAsync(username);
+        userParams.CurrentUsername = currentUser.Username;
+
+        if (string.IsNullOrEmpty(userParams.Gender))
+        {
+            userParams.Gender = currentUser.Gender == "male" ? "female" : "male";
+        }
+        
+        return await userRepository.GetMembersAsync(userParams);
     }
 
     public async Task UpdateUserAsync(string username, MemberUpdateDto memberUpdateDto)
@@ -35,6 +44,13 @@ public class UserService(IUserRepository userRepository, IPhotoService photoServ
 
         var saveResult = await userRepository.SaveAllAsync();
         if (!saveResult) throw new UpdateFailedException($"Failed to update user {username}");
+    }
+
+    public async Task LogUserActivity(int userId)
+    {
+        var user = await userRepository.GetByIdAsync(userId);
+        user.LastActive = DateTime.UtcNow;
+        await userRepository.SaveAllAsync();
     }
 
     public async Task<PhotoDto> AddPhotoAsync(string username, IFormFile file)
