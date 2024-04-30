@@ -7,6 +7,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { FileUploadModule } from 'ng2-file-upload';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 @NgModule({
   declarations: [],
@@ -14,6 +15,7 @@ import { FileUploadModule } from 'ng2-file-upload';
     CommonModule,
     BsDropdownModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    PaginationModule.forRoot(),
     TabsModule.forRoot(),
     ToastrModule.forRoot({ positionClass: 'toast-bottom-right' }),
     NgxSpinnerModule.forRoot({ type: 'ball-spin-clockwise-fade' }),
@@ -22,10 +24,12 @@ import { FileUploadModule } from 'ng2-file-upload';
   exports: [
     BsDropdownModule,
     BsDatepickerModule,
+    PaginationModule,
     TabsModule,
     ToastrModule,
     NgxSpinnerModule,
     FileUploadModule,
   ],
 })
-export class SharedModule {}
+export class SharedModule {
+}
