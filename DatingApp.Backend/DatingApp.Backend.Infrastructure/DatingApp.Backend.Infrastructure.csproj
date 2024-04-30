@@ -18,4 +18,8 @@
         <ProjectReference Include="..\DatingApp.Backend.Domain\DatingApp.Backend.Domain.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Persistence\Database\" />
+    </ItemGroup>
+
 </Project>

@@ -22,8 +22,16 @@ public class UserService(IUserRepository userRepository, IPhotoService photoServ
         return await userRepository.GetMemberAsync(username);
     }
 
-    public async Task<PagedList<MemberDto>> ListUsersAsync(UserParams userParams)
+    public async Task<PagedList<MemberDto>> ListUsersAsync(string username, UserParams userParams)
     {
+        var currentUser = await userRepository.GetByUsernameAsync(username);
+        userParams.CurrentUsername = currentUser.Username;
+
+        if (string.IsNullOrEmpty(userParams.Gender))
+        {
+            userParams.Gender = currentUser.Gender == "male" ? "female" : "male";
+        }
+        
         return await userRepository.GetMembersAsync(userParams);
     }
 

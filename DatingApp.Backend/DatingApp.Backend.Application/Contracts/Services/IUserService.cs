@@ -8,7 +8,7 @@ public interface IUserService
 {
     Task<MemberDto> GetUserByIdAsync(int id);
     Task<MemberDto> GetUserByUsernameAsync(string username);
-    Task<PagedList<MemberDto>> ListUsersAsync(UserParams userParams);
+    Task<PagedList<MemberDto>> ListUsersAsync(string username, UserParams userParams);
     Task UpdateUserAsync(string username, MemberUpdateDto memberUpdateDto);
     Task<PhotoDto> AddPhotoAsync(string username, IFormFile file);
     Task SetMainPhotoAsync(string username, int photoId);
