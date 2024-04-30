@@ -8,6 +8,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { FileUploadModule } from 'ng2-file-upload';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 @NgModule({
   declarations: [],
@@ -15,6 +16,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
     CommonModule,
     BsDropdownModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    ButtonsModule.forRoot(),
     PaginationModule.forRoot(),
     TabsModule.forRoot(),
     ToastrModule.forRoot({ positionClass: 'toast-bottom-right' }),
@@ -24,6 +26,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
   exports: [
     BsDropdownModule,
     BsDatepickerModule,
+    ButtonsModule,
     PaginationModule,
     TabsModule,
     ToastrModule,

@@ -46,6 +46,13 @@ public class UserService(IUserRepository userRepository, IPhotoService photoServ
         if (!saveResult) throw new UpdateFailedException($"Failed to update user {username}");
     }
 
+    public async Task LogUserActivity(int userId)
+    {
+        var user = await userRepository.GetByIdAsync(userId);
+        user.LastActive = DateTime.UtcNow;
+        await userRepository.SaveAllAsync();
+    }
+
     public async Task<PhotoDto> AddPhotoAsync(string username, IFormFile file)
     {
         var user = await userRepository.GetByUsernameAsync(username);

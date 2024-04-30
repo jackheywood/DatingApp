@@ -10,6 +10,7 @@ public interface IUserService
     Task<MemberDto> GetUserByUsernameAsync(string username);
     Task<PagedList<MemberDto>> ListUsersAsync(string username, UserParams userParams);
     Task UpdateUserAsync(string username, MemberUpdateDto memberUpdateDto);
+    Task LogUserActivity(int userId);
     Task<PhotoDto> AddPhotoAsync(string username, IFormFile file);
     Task SetMainPhotoAsync(string username, int photoId);
     Task DeletePhotoAsync(string username, int photoId);

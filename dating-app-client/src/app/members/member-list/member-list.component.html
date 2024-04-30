@@ -34,8 +34,34 @@
         </option>
       </select>
     </div>
+
     <button class="btn btn-primary ms-1" type="submit">Apply Filters</button>
     <button (click)="resetFilters()" class="btn btn-info ms-1">Reset Filters</button>
+
+    <div class="col">
+      <div class="btn-group float-end">
+        <button
+          (click)="loadMembers()"
+          [(ngModel)]="userParams.orderBy"
+          btnRadio="lastActive"
+          class="btn btn-primary"
+          name="orderBy"
+          type="button"
+        >
+          Last Active
+        </button>
+        <button
+          (click)="loadMembers()"
+          [(ngModel)]="userParams.orderBy"
+          btnRadio="created"
+          class="btn btn-primary"
+          name="orderBy"
+          type="button"
+        >
+          Newest Members
+        </button>
+      </div>
+    </div>
   </form>
 </div>
 

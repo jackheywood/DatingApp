@@ -1,3 +1,4 @@
+using DatingApp.Backend.Api.Helpers;
 using DatingApp.Backend.Api.Middleware;
 using DatingApp.Backend.Application;
 using DatingApp.Backend.Infrastructure;
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddApplicationServices();
+builder.Services.AddScoped<LogUserActivityActionFilter>();
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
 
