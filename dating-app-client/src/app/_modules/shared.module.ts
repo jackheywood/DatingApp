@@ -9,6 +9,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { FileUploadModule } from 'ng2-file-upload';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { TimeagoModule } from 'ngx-timeago';
 
 @NgModule({
   declarations: [],
@@ -21,6 +22,7 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
     TabsModule.forRoot(),
     ToastrModule.forRoot({ positionClass: 'toast-bottom-right' }),
     NgxSpinnerModule.forRoot({ type: 'ball-spin-clockwise-fade' }),
+    TimeagoModule.forRoot(),
     FileUploadModule,
   ],
   exports: [
@@ -31,6 +33,7 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
     TabsModule,
     ToastrModule,
     NgxSpinnerModule,
+    TimeagoModule,
     FileUploadModule,
   ],
 })

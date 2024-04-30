@@ -7,19 +7,21 @@ import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
 
 import { Member } from '../../_models/member';
 import { MemberService } from '../../_services/member.service';
+import { TimeagoModule } from 'ngx-timeago';
 
 @Component({
   selector: 'app-member-detail',
   standalone: true,
   templateUrl: './member-detail.component.html',
   styleUrls: ['./member-detail.component.scss'],
-  imports: [CommonModule, TabsModule, GalleryModule],
+  imports: [CommonModule, TabsModule, GalleryModule, TimeagoModule],
 })
 export class MemberDetailComponent implements OnInit {
   member: Member | undefined;
   images: GalleryItem[] = [];
 
-  constructor(private memberService: MemberService, private route: ActivatedRoute) {}
+  constructor(private memberService: MemberService, private route: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
     this.loadMember();
