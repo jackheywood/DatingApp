@@ -11,4 +11,8 @@ export class UserParams {
   constructor(user: User) {
     this.gender = user.gender === 'female' ? 'male' : 'female';
   }
+
+  getCacheKey(): string {
+    return Object.values(this).join('-');
+  }
 }
