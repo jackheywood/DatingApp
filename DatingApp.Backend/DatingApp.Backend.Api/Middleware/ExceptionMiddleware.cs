@@ -20,7 +20,7 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.NotFound;
 
-            var response = JsonSerializer.Serialize(new { error = ex.Message });
+            var response = JsonSerializer.Serialize(ex.Message);
             await context.Response.WriteAsync(response);
         }
         catch (Exception ex) when (ex is UpdateFailedException or PhotoUploadException or LikeException)
@@ -30,7 +30,7 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
 
-            var response = JsonSerializer.Serialize(new { error = ex.Message });
+            var response = JsonSerializer.Serialize(ex.Message);
             await context.Response.WriteAsync(response);
         }
         catch (Exception ex)

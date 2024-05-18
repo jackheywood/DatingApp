@@ -27,7 +27,7 @@ export class MemberService {
           this.userParams = new UserParams(user);
           this.user = user;
         }
-      }
+      },
     });
   }
 
@@ -63,7 +63,7 @@ export class MemberService {
       map(response => {
         this.memberCache.set(userParams.getCacheKey(), response);
         return response;
-      })
+      }),
     );
   }
 
@@ -96,6 +96,14 @@ export class MemberService {
     return this.http.delete<void>(this.baseUrl + 'users/photos/' + photoId);
   }
 
+  addLike(username: string): Observable<void> {
+    return this.http.post<void>(this.baseUrl + 'likes/' + username, {});
+  }
+
+  getLikes(predicate: string) {
+    return this.http.get(this.baseUrl + 'likes?predicate=' + predicate);
+  }
+
   private getPaginationParams(pageNumber: number, pageSize: number): HttpParams {
     let params = new HttpParams();
 
@@ -117,7 +125,7 @@ export class MemberService {
           paginatedResult.pagination = JSON.parse(pagination);
         }
         return paginatedResult;
-      })
+      }),
     );
   }
 }

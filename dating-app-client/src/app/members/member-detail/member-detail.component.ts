@@ -8,6 +8,7 @@ import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
 import { Member } from '../../_models/member';
 import { MemberService } from '../../_services/member.service';
 import { TimeagoModule } from 'ngx-timeago';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-member-detail',
@@ -20,7 +21,10 @@ export class MemberDetailComponent implements OnInit {
   member: Member | undefined;
   images: GalleryItem[] = [];
 
-  constructor(private memberService: MemberService, private route: ActivatedRoute) {
+  constructor(
+    private memberService: MemberService,
+    private route: ActivatedRoute,
+    private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -43,5 +47,10 @@ export class MemberDetailComponent implements OnInit {
     for (const photo of this.member.photos) {
       this.images.push(new ImageItem({ src: photo.url, thumb: photo.url }));
     }
+  }
+
+  addLike(member: Member): void {
+    this.memberService.addLike(member.username).subscribe(() =>
+      this.toastr.success(`You have liked ${member.knownAs}`));
   }
 }
