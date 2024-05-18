@@ -11,5 +11,6 @@ public static class ServiceRegistration
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<ILikesService, LikesService>();
     }
 }
