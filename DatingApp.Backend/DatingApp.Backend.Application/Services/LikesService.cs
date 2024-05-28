@@ -2,16 +2,15 @@
 using DatingApp.Backend.Application.Contracts.Services;
 using DatingApp.Backend.Application.DTOs;
 using DatingApp.Backend.Application.Exceptions;
+using DatingApp.Backend.Application.Helpers;
 using DatingApp.Backend.Domain.Entities;
 
 namespace DatingApp.Backend.Application.Services;
 
 public class LikesService(ILikesRepository likesRepository, IUserRepository userRepository) : ILikesService
 {
-    public async Task<IEnumerable<LikeDto>> GetUserLikesAsync(string predicate, int userId)
-    {
-        return await likesRepository.GetUserLikes(predicate, userId);
-    }
+    public async Task<PagedList<LikeDto>> GetUserLikesAsync(LikesParams likesParams) =>
+        await likesRepository.GetUserLikes(likesParams);
 
     public async Task AddLikeAsync(string username, int sourceUserId)
     {

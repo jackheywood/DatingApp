@@ -21,10 +21,12 @@ export class MemberService {
   user: User | undefined;
 
   constructor(private http: HttpClient, private accountService: AccountService) {
-    this.accountService.currentUser$.pipe(take(1)).subscribe({
+
+    this.accountService.currentUser$.subscribe({
       next: user => {
-        if (user) {
+        if (user && user !== this.user) {
           this.userParams = new UserParams(user);
+          this.memberCache = new Map();
           this.user = user;
         }
       },
@@ -100,8 +102,11 @@ export class MemberService {
     return this.http.post<void>(this.baseUrl + 'likes/' + username, {});
   }
 
-  getLikes(predicate: string) {
-    return this.http.get(this.baseUrl + 'likes?predicate=' + predicate);
+  getLikes(predicate: string, pageNumber: number, pageSize: number): Observable<PaginatedResult<Member[]>> {
+    let params = this.getPaginationParams(pageNumber, pageSize);
+    params = params.append('predicate', predicate);
+
+    return this.getPaginatedResult<Member[]>(this.baseUrl + 'likes', params);
   }
 
   private getPaginationParams(pageNumber: number, pageSize: number): HttpParams {

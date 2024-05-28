@@ -1,6 +1,8 @@
 ﻿using DatingApp.Backend.Api.Extensions;
+using DatingApp.Backend.Api.Helpers;
 using DatingApp.Backend.Application.Contracts.Services;
 using DatingApp.Backend.Application.DTOs;
+using DatingApp.Backend.Application.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DatingApp.Backend.Api.Controllers;
@@ -8,9 +10,11 @@ namespace DatingApp.Backend.Api.Controllers;
 public class LikesController(ILikesService likesService) : BaseApiController
 {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<LikeDto>>> GetUserLikes(string predicate)
+    public async Task<ActionResult<PagedList<LikeDto>>> GetUserLikes([FromQuery] LikesParams likesParams)
     {
-        var likes = await likesService.GetUserLikesAsync(predicate, User.GetUserId());
+        likesParams.UserId = User.GetUserId();
+        var likes = await likesService.GetUserLikesAsync(likesParams);
+        Response.AddPaginationHeader(new PaginationHeader(likes));
         return Ok(likes);
     }
 
