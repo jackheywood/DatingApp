@@ -5,6 +5,7 @@ using DatingApp.Backend.Application.Contracts.Services;
 using DatingApp.Backend.Application.DTOs;
 using DatingApp.Backend.Application.Exceptions;
 using DatingApp.Backend.Application.Helpers;
+using DatingApp.Backend.Application.Helpers.Params;
 using Microsoft.AspNetCore.Http;
 
 namespace DatingApp.Backend.Application.Services;
@@ -17,10 +18,8 @@ public class UserService(IUserRepository userRepository, IPhotoService photoServ
         return mapper.Map<MemberDto>(user);
     }
 
-    public async Task<MemberDto> GetUserByUsernameAsync(string username)
-    {
-        return await userRepository.GetMemberAsync(username);
-    }
+    public async Task<MemberDto> GetUserByUsernameAsync(string username) =>
+        await userRepository.GetMemberAsync(username);
 
     public async Task<PagedList<MemberDto>> ListUsersAsync(string username, UserParams userParams)
     {
@@ -28,10 +27,8 @@ public class UserService(IUserRepository userRepository, IPhotoService photoServ
         userParams.CurrentUsername = currentUser.Username;
 
         if (string.IsNullOrEmpty(userParams.Gender))
-        {
             userParams.Gender = currentUser.Gender == "male" ? "female" : "male";
-        }
-        
+
         return await userRepository.GetMembersAsync(userParams);
     }
 
@@ -105,8 +102,5 @@ public class UserService(IUserRepository userRepository, IPhotoService photoServ
         if (!saveResult) throw new UpdateFailedException($"Failed to delete photo for {username}");
     }
 
-    public async Task<bool> UserExistsAsync(string username)
-    {
-        return await userRepository.ExistsAsync(username);
-    }
+    public async Task<bool> UserExistsAsync(string username) => await userRepository.ExistsAsync(username);
 }

@@ -3,6 +3,7 @@ using DatingApp.Backend.Api.Helpers;
 using DatingApp.Backend.Application.Contracts.Services;
 using DatingApp.Backend.Application.DTOs;
 using DatingApp.Backend.Application.Helpers;
+using DatingApp.Backend.Application.Helpers.Params;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DatingApp.Backend.Api.Controllers;

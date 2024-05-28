@@ -4,6 +4,7 @@ using AutoMapper.QueryableExtensions;
 using DatingApp.Backend.Application.Contracts.Persistence.Repositories;
 using DatingApp.Backend.Application.DTOs;
 using DatingApp.Backend.Application.Helpers;
+using DatingApp.Backend.Application.Helpers.Params;
 using DatingApp.Backend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -62,10 +63,7 @@ public class UserRepository(DatingAppDbContext context, IMapper mapper)
             userParams.PageSize);
     }
 
-    public async Task<bool> ExistsAsync(string username)
-    {
-        return await Context.Users.AnyAsync(UsernameMatches(username));
-    }
+    public async Task<bool> ExistsAsync(string username) => await Context.Users.AnyAsync(UsernameMatches(username));
 
     private static Expression<Func<AppUser, bool>> UsernameMatches(string username)
     {
