@@ -5,14 +5,14 @@ namespace DatingApp.Backend.Api.Extensions;
 
 public static class HttpExtensions
 {
+    private static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+    };
+
     public static void AddPaginationHeader(this HttpResponse response, PaginationHeader header)
     {
-        var jsonOptions = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        };
-
-        response.Headers.Append("Pagination", JsonSerializer.Serialize(header, jsonOptions));
+        response.Headers.Append("Pagination", JsonSerializer.Serialize(header, JsonOptions));
         response.Headers.Append("Access-Control-Expose-Headers", "Pagination");
     }
 }

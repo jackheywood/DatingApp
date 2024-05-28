@@ -13,11 +13,14 @@ export class NavComponent {
 
   constructor(
     public accountService: AccountService,
-    private router: Router) {}
+    private router: Router) {
+  }
 
   login(): void {
     this.accountService.login(this.model).subscribe({
-      next: _ => this.router.navigateByUrl('/members'),
+      next: _ => {
+        this.router.navigateByUrl('/members');
+      },
     });
   }
 

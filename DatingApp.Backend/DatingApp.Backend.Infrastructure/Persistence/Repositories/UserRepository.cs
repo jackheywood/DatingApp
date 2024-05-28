@@ -9,11 +9,30 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.Backend.Infrastructure.Persistence.Repositories;
 
-public class UserRepository(DatingAppDbContext context, IMapper mapper) : IUserRepository
+public class UserRepository(DatingAppDbContext context, IMapper mapper)
+    : AsyncRepository<AppUser>(context), IUserRepository
 {
+    public async Task<AppUser> GetByIdAsync(int userId)
+    {
+        return await Context.Users.SingleOrDefaultAsync(u => u.Id == userId);
+    }
+
+    public async Task<AppUser> GetByUsernameAsync(string username)
+    {
+        return await Context.Users
+            .Include(u => u.Photos)
+            .SingleOrDefaultAsync(UsernameMatches(username));
+    }
+
+    public async Task<AppUser> GetUserWithLikes(int userId)
+    {
+        return await Context.Users.Include(u => u.LikedUsers)
+            .SingleOrDefaultAsync(u => u.Id == userId);
+    }
+
     public async Task<MemberDto> GetMemberAsync(string username)
     {
-        return await context.Users
+        return await Context.Users
             .Where(u => u.Username == username)
             .ProjectTo<MemberDto>(mapper.ConfigurationProvider)
             .SingleOrDefaultAsync();
@@ -21,7 +40,7 @@ public class UserRepository(DatingAppDbContext context, IMapper mapper) : IUserR
 
     public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
     {
-        var query = context.Users.AsQueryable();
+        var query = Context.Users.AsQueryable();
 
         query = query.Where(u => u.Username != userParams.CurrentUsername);
         query = query.Where(u => u.Gender == userParams.Gender);
@@ -36,48 +55,16 @@ public class UserRepository(DatingAppDbContext context, IMapper mapper) : IUserR
             "created" => query.OrderByDescending(u => u.Created),
             _ => query.OrderByDescending(u => u.LastActive),
         };
-        
+
         return await PagedList<MemberDto>.CreateAsync(
             query.ProjectTo<MemberDto>(mapper.ConfigurationProvider).AsNoTracking(),
             userParams.PageNumber,
             userParams.PageSize);
     }
 
-    public async Task<AppUser> GetByIdAsync(int id)
-    {
-        return await context.Users.SingleOrDefaultAsync(u => u.Id == id);
-    }
-
-    public async Task<AppUser> GetByUsernameAsync(string username)
-    {
-        return await context.Users
-            .Include(u => u.Photos)
-            .SingleOrDefaultAsync(UsernameMatches(username));
-    }
-
-    public async Task<IEnumerable<AppUser>> GetAllAsync()
-    {
-        return await context.Users.ToListAsync();
-    }
-
-    public async Task AddAsync(AppUser user)
-    {
-        await context.AddAsync(user);
-    }
-
-    public async Task<bool> SaveAllAsync()
-    {
-        return await context.SaveChangesAsync() > 0;
-    }
-
-    public void Update(AppUser user)
-    {
-        context.Entry(user).State = EntityState.Modified;
-    }
-
     public async Task<bool> ExistsAsync(string username)
     {
-        return await context.Users.AnyAsync(UsernameMatches(username));
+        return await Context.Users.AnyAsync(UsernameMatches(username));
     }
 
     private static Expression<Func<AppUser, bool>> UsernameMatches(string username)

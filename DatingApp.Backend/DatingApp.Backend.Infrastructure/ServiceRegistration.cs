@@ -27,6 +27,7 @@ public static class ServiceRegistration
         services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
 
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ILikesRepository, LikesRepository>();
 
         services.AddScoped<IPhotoService, PhotoService>();
     }
