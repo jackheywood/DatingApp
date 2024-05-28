@@ -23,7 +23,8 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
             var response = JsonSerializer.Serialize(ex.Message);
             await context.Response.WriteAsync(response);
         }
-        catch (Exception ex) when (ex is UpdateFailedException or PhotoUploadException or LikeException)
+        catch (Exception ex)
+            when (ex is UpdateFailedException or PhotoUploadException or LikeException or MessageException)
         {
             logger.LogError(ex, "{Message}", ex.Message);
 
