@@ -23,12 +23,23 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
             var response = JsonSerializer.Serialize(ex.Message);
             await context.Response.WriteAsync(response);
         }
-        catch (Exception ex) when (ex is UpdateFailedException or PhotoUploadException or LikeException)
+        catch (Exception ex)
+            when (ex is UpdateFailedException or PhotoUploadException or LikeException or MessageException)
         {
             logger.LogError(ex, "{Message}", ex.Message);
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+
+            var response = JsonSerializer.Serialize(ex.Message);
+            await context.Response.WriteAsync(response);
+        }
+        catch (MessageAuthorizationException ex)
+        {
+            logger.LogError(ex, "{Message}", ex.Message);
+
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
 
             var response = JsonSerializer.Serialize(ex.Message);
             await context.Response.WriteAsync(response);
@@ -47,7 +58,6 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
             var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
             var json = JsonSerializer.Serialize(response, options);
-
             await context.Response.WriteAsync(json);
         }
     }

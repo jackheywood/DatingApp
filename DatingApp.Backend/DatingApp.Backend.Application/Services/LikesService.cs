@@ -3,6 +3,7 @@ using DatingApp.Backend.Application.Contracts.Services;
 using DatingApp.Backend.Application.DTOs;
 using DatingApp.Backend.Application.Exceptions;
 using DatingApp.Backend.Application.Helpers;
+using DatingApp.Backend.Application.Helpers.Params;
 using DatingApp.Backend.Domain.Entities;
 
 namespace DatingApp.Backend.Application.Services;

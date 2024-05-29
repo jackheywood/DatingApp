@@ -1,5 +1,6 @@
 ﻿using DatingApp.Backend.Application.DTOs;
 using DatingApp.Backend.Application.Helpers;
+using DatingApp.Backend.Application.Helpers.Params;
 
 namespace DatingApp.Backend.Application.Contracts.Services;
 

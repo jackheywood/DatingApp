@@ -12,5 +12,6 @@ public static class ServiceRegistration
 
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ILikesService, LikesService>();
+        services.AddScoped<IMessageService, MessageService>();
     }
 }

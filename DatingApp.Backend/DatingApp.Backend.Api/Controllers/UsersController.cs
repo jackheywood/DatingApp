@@ -3,6 +3,7 @@ using DatingApp.Backend.Api.Helpers;
 using DatingApp.Backend.Application.Contracts.Services;
 using DatingApp.Backend.Application.DTOs;
 using DatingApp.Backend.Application.Helpers;
+using DatingApp.Backend.Application.Helpers.Params;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,16 +24,11 @@ public class UsersController(IUserService userService) : BaseApiController
     }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<MemberDto>> GetUserById(int id)
-    {
-        return Ok(await userService.GetUserByIdAsync(id));
-    }
+    public async Task<ActionResult<MemberDto>> GetUserById(int id) => Ok(await userService.GetUserByIdAsync(id));
 
     [HttpGet("{username}")]
-    public async Task<ActionResult<MemberDto>> GetUserByUsername(string username)
-    {
-        return Ok(await userService.GetUserByUsernameAsync(username));
-    }
+    public async Task<ActionResult<MemberDto>> GetUserByUsername(string username) =>
+        Ok(await userService.GetUserByUsernameAsync(username));
 
     [HttpPut]
     public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)

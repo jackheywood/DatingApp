@@ -1,4 +1,4 @@
-﻿namespace DatingApp.Backend.Application.Helpers;
+﻿namespace DatingApp.Backend.Application.Helpers.Params;
 
 public class PaginationParams
 {

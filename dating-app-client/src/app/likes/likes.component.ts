@@ -4,16 +4,15 @@ import { MemberService } from '../_services/member.service';
 import { Pagination } from '../_models/pagination';
 
 @Component({
-  selector: 'app-lists',
-  templateUrl: './lists.component.html',
-  styleUrls: ['./lists.component.scss']
+  selector: 'app-likes',
+  templateUrl: './likes.component.html',
 })
-export class ListsComponent implements OnInit {
+export class LikesComponent implements OnInit {
   members: Member[] | undefined;
+  pagination: Pagination | undefined;
   predicate = 'liked';
   pageNumber = 1;
   pageSize = 5;
-  pagination: Pagination | undefined;
 
   constructor(private memberService: MemberService) {
   }
@@ -22,7 +21,7 @@ export class ListsComponent implements OnInit {
     this.loadLikes();
   }
 
-  loadLikes() {
+  loadLikes(): void {
     this.memberService.getLikes(this.predicate, this.pageNumber, this.pageSize).subscribe({
       next: response => {
         this.members = response.result;
