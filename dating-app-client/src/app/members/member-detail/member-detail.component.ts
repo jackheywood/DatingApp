@@ -21,9 +21,9 @@ import { Message } from '../../_models/message';
   imports: [CommonModule, TabsModule, GalleryModule, TimeagoModule, MemberMessagesComponent],
 })
 export class MemberDetailComponent implements OnInit {
-  @ViewChild('memberTabs') memberTabs?: TabsetComponent;
+  @ViewChild('memberTabs', { static: true }) memberTabs?: TabsetComponent;
 
-  member: Member | undefined;
+  member: Member = {} as Member;
   images: GalleryItem[] = [];
   messages: Message[] = [];
   activeTab?: TabDirective;
@@ -36,7 +36,22 @@ export class MemberDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadMember();
+    this.route.data.subscribe(data => this.member = data['member']);
+
+    this.route.queryParams.subscribe(params =>
+      params['tab'] && this.selectTab(params['tab'])
+    );
+
+    this.getImages();
+  }
+
+  selectTab(heading: string) {
+    if (this.memberTabs) {
+      const tab = this.memberTabs.tabs.find(t => t.heading === heading);
+      if (tab) {
+        tab.active = true;
+      }
+    }
   }
 
   onTabActivated(data: TabDirective): void {
@@ -44,17 +59,6 @@ export class MemberDetailComponent implements OnInit {
     if (this.activeTab.heading === 'Messages') {
       this.loadMessages();
     }
-  }
-
-  loadMember(): void {
-    const username = this.route.snapshot.paramMap.get('username');
-    if (!username) return;
-    this.memberService.getMember(username).subscribe({
-      next: (member) => {
-        this.member = member;
-        this.getImages();
-      },
-    });
   }
 
   getImages() {

@@ -48,6 +48,7 @@
       <tbody class="align-middle">
       <tr
         *ngFor="let message of messages"
+        [queryParams]="{ tab: 'Messages' }"
         [routerLink]="getMessageLink(message)"
       >
         <td>{{ message.content }}</td>
