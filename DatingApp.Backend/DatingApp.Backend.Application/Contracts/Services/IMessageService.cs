@@ -9,4 +9,5 @@ public interface IMessageService
     Task<PagedList<MessageDto>> GetMessagesForUserAsync(MessageParams messageParams);
     Task<IEnumerable<MessageDto>> GetMessageThreadAsync(string currentUsername, string recipientUsername);
     Task<MessageDto> CreateMessageAsync(string senderUsername, CreateMessageDto createMessageDto);
+    Task DeleteMessageAsync(int id, string username);
 }

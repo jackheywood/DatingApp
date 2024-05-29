@@ -34,4 +34,11 @@ public class MessagesController(IMessageService messageService) : BaseApiControl
         var message = await messageService.CreateMessageAsync(username, createMessageDto);
         return Ok(message);
     }
+
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult> DeleteMessage(int id)
+    {
+        await messageService.DeleteMessageAsync(id, User.GetUsername());
+        return NoContent();
+    }
 }

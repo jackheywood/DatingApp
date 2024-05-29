@@ -33,9 +33,9 @@ public class MessageRepository(DatingAppDbContext context, IMapper mapper)
 
         query = messageParams.Container switch
         {
-            "Inbox" => query.Where(m => m.RecipientUsername == messageParams.Username),
-            "Outbox" => query.Where(m => m.SenderUsername == messageParams.Username),
-            _ => query.Where(m => m.RecipientUsername == messageParams.Username && m.DateRead == null),
+            "Inbox" => query.Where(IsInboxMessage(messageParams.Username)),
+            "Outbox" => query.Where(IsOutboxMessage(messageParams.Username)),
+            _ => query.Where(IsUnreadMessage(messageParams.Username)),
         };
 
         var messages = query.ProjectTo<MessageDto>(mapper.ConfigurationProvider);
@@ -72,10 +72,25 @@ public class MessageRepository(DatingAppDbContext context, IMapper mapper)
         }
     }
 
+    private static Expression<Func<Message, bool>> IsInboxMessage(string username)
+    {
+        return m => m.RecipientUsername == username && !m.RecipientDeleted;
+    }
+
+    private static Expression<Func<Message, bool>> IsOutboxMessage(string username)
+    {
+        return m => m.SenderUsername == username && !m.SenderDeleted;
+    }
+
+    private static Expression<Func<Message, bool>> IsUnreadMessage(string username)
+    {
+        return m => m.RecipientUsername == username && m.DateRead == null && !m.RecipientDeleted;
+    }
+
     private static Expression<Func<Message, bool>> IsMessageBetweenUsers(string username1, string username2)
     {
-        return m => (m.RecipientUsername == username1 && m.SenderUsername == username2)
-                    || (m.SenderUsername == username1 && m.RecipientUsername == username2);
+        return m => (m.RecipientUsername == username1 && !m.RecipientDeleted && m.SenderUsername == username2)
+                    || (m.SenderUsername == username1 && !m.SenderDeleted && m.RecipientUsername == username2);
     }
 
     private static Func<Message, bool> IsUnreadByUser(string username)

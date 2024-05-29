@@ -25,7 +25,7 @@ public class MessageService(IMessageRepository messageRepository, IUserRepositor
     {
         if (currentUsername.EqualsIgnoreCase(recipientUsername))
             throw new MessageException("You cannot read messages from yourself");
-        
+
         var currentUserExists = await userRepository.ExistsAsync(currentUsername);
         if (!currentUserExists) throw new NotFoundException($"User {currentUsername} not found");
 
@@ -59,5 +59,21 @@ public class MessageService(IMessageRepository messageRepository, IUserRepositor
         if (await messageRepository.SaveAllAsync()) return mapper.Map<MessageDto>(message);
 
         throw new MessageException($"Failed to send message to {createMessageDto.RecipientUsername}");
+    }
+
+    public async Task DeleteMessageAsync(int id, string username)
+    {
+        var message = await messageRepository.GetMessageAsync(id);
+        if (message is null) throw new NotFoundException($"Message {id} not found");
+
+        if (message.SenderUsername != username && message.RecipientUsername != username)
+            throw new MessageAuthorizationException($"User is not authorized for message {id}");
+
+        if (message.SenderUsername == username) message.SenderDeleted = true;
+        if (message.RecipientUsername == username) message.RecipientDeleted = true;
+
+        if (message.SenderDeleted && message.RecipientDeleted) messageRepository.DeleteMessage(message);
+
+        if (!await messageRepository.SaveAllAsync()) throw new MessageException($"Failed to delete message {id}");
     }
 }

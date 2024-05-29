@@ -29,6 +29,7 @@ import { PhotoEditorComponent } from './members/photo-editor/photo-editor.compon
 import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { DatePickerComponent } from './_forms/date-picker/date-picker.component';
 import { NgOptimizedImage } from '@angular/common';
+import { ClickStopPropagationDirective } from './_directives/click-stop-propagation.directive';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { NgOptimizedImage } from '@angular/common';
     PhotoEditorComponent,
     TextInputComponent,
     DatePickerComponent,
+    ClickStopPropagationDirective,
   ],
   imports: [
     SharedModule,
