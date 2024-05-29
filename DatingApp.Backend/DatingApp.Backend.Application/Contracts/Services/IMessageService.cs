@@ -7,5 +7,6 @@ namespace DatingApp.Backend.Application.Contracts.Services;
 public interface IMessageService
 {
     Task<PagedList<MessageDto>> GetMessagesForUserAsync(MessageParams messageParams);
+    Task<IEnumerable<MessageDto>> GetMessageThreadAsync(string currentUsername, string recipientUsername);
     Task<MessageDto> CreateMessageAsync(string senderUsername, CreateMessageDto createMessageDto);
 }

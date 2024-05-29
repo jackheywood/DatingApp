@@ -19,6 +19,14 @@ public class MessagesController(IMessageService messageService) : BaseApiControl
         return Ok(messages);
     }
 
+    [HttpGet("thread/{username}")]
+    public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread(string username)
+    {
+        var currentUsername = User.GetUsername();
+        var thread = await messageService.GetMessageThreadAsync(currentUsername, username);
+        return Ok(thread);
+    }
+
     [HttpPost]
     public async Task<ActionResult<MessageDto>> CreateMessage(CreateMessageDto createMessageDto)
     {

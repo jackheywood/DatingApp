@@ -11,5 +11,5 @@ public interface IMessageRepository : IAsyncRepository<Message>
     void DeleteMessage(Message message);
     Task<Message> GetMessageAsync(int id);
     Task<PagedList<MessageDto>> GetMessagesForUserAsync(MessageParams messageParams);
-    Task<IEnumerable<MessageDto>> GetMessageThreadAsync(int userId, int recipientId);
+    Task<IEnumerable<MessageDto>> GetMessageThreadAsync(string username, string recipientUsername);
 }

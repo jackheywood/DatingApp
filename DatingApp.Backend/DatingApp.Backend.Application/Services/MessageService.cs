@@ -15,10 +15,24 @@ public class MessageService(IMessageRepository messageRepository, IUserRepositor
 {
     public async Task<PagedList<MessageDto>> GetMessagesForUserAsync(MessageParams messageParams)
     {
-        var user = await userRepository.GetByUsernameAsync(messageParams.Username);
-        if (user is null) throw new NotFoundException($"User {messageParams.Username} not found");
+        var userExists = await userRepository.ExistsAsync(messageParams.Username);
+        if (!userExists) throw new NotFoundException($"User {messageParams.Username} not found");
 
         return await messageRepository.GetMessagesForUserAsync(messageParams);
+    }
+
+    public async Task<IEnumerable<MessageDto>> GetMessageThreadAsync(string currentUsername, string recipientUsername)
+    {
+        if (currentUsername.EqualsIgnoreCase(recipientUsername))
+            throw new MessageException("You cannot read messages from yourself");
+        
+        var currentUserExists = await userRepository.ExistsAsync(currentUsername);
+        if (!currentUserExists) throw new NotFoundException($"User {currentUsername} not found");
+
+        var recipientExists = await userRepository.ExistsAsync(recipientUsername);
+        if (!recipientExists) throw new NotFoundException($"User {recipientUsername} not found");
+
+        return await messageRepository.GetMessageThreadAsync(currentUsername, recipientUsername);
     }
 
     public async Task<MessageDto> CreateMessageAsync(string senderUsername, CreateMessageDto createMessageDto)
