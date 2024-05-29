@@ -48,6 +48,7 @@
       <tbody class="align-middle">
       <tr
         *ngFor="let message of messages"
+        [hidden]="loading"
         [queryParams]="{ tab: 'Messages' }"
         [routerLink]="getMessageLink(message)"
       >
@@ -70,7 +71,7 @@
             <strong>{{ message.senderUsername | titlecase }}</strong>
           </div>
         </td>
-        <td>{{ message.dateSent | timeago }}</td>
+        <td>{{ message.dateSent + 'Z' | timeago }}</td>
         <td>
           <button class="btn btn-danger">Delete</button>
         </td>
@@ -79,7 +80,7 @@
     </table>
   </div>
 
-  <div *ngIf="pagination" class="d-flex justify-content-center">
+  <div *ngIf="pagination && !loading" class="d-flex justify-content-center">
     <pagination
       (pageChanged)="pageChanged($event)"
       [(ngModel)]="pagination.currentPage"

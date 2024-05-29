@@ -49,7 +49,7 @@ public class MessageRepository(DatingAppDbContext context, IMapper mapper)
             .Include(m => m.Sender).ThenInclude(s => s.Photos)
             .Include(m => m.Recipient).ThenInclude(r => r.Photos)
             .Where(IsMessageBetweenUsers(currentUsername, recipientUsername))
-            .OrderByDescending(m => m.DateSent)
+            .OrderBy(m => m.DateSent)
             .ToListAsync();
 
         await MarkUnreadMessagesAsReadAsync(messages, currentUsername);
